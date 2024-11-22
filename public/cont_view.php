@@ -28,9 +28,17 @@ $result = mysqli_query($conn, $query);
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+<<<<<<< HEAD
 
 <main class="container mx-auto p-6">
     <h1 class="text-3xl font-bold text-center mb-6">Contact Messages</h1>
+=======
+<div class="bg-blue-600 text-white p-4 shadow-md">
+<h1 class="text-3xl font-bold text-center mb-6">Contact Messages</h1>
+    </div>
+<main class="container mx-auto p-6">
+   
+>>>>>>> 6bc15b644a2f8ed7836ebed66c1a2e9e1961dde7
 
     <?php if (mysqli_num_rows($result) > 0): ?>
         <table class="min-w-full bg-white border border-gray-200">

@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Currency Exchange</title>
     
+<<<<<<< HEAD
     <!-- TailwindCSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -17,10 +18,17 @@
             menu.classList.toggle('hidden');
         }
     </script>
+=======
+    <!-- TailwindCSS CDN (or you can use a local build if preferred) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Additional meta tags and external resources can go here -->
+>>>>>>> 6bc15b644a2f8ed7836ebed66c1a2e9e1961dde7
 </head>
 <body class="bg-gray-100 text-gray-900">
 
     <!-- Header Section -->
+<<<<<<< HEAD
     <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -63,3 +71,32 @@
     </nav>
 </body>
 </html>
+=======
+    <header class="bg-blue-600 text-white p-4 shadow-md">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo or App Name -->
+            <a href="index.php" class="text-2xl font-bold">
+                Currency Exchange
+            </a>
+            
+            <!-- Navigation Menu -->
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="index.php" class="hover:text-blue-300">Home</a></li>
+                    <?php if (!isset($_SESSION['user_id'])): ?>
+                    <li><a href="login.php" class="hover:text-blue-300">Login</a></li>
+                    <li><a href="register.php" class="hover:text-blue-300">Register</a></li>
+                    <?php endif; ?>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <li><a href="dashboard.php" class="hover:text-blue-300">Dashboard</a></li>
+                        <li><a href="../public/contact.php" class="hover:text-blue-300">Contact Us</a></li>
+                        <li><a href="logout.php" class="hover:text-blue-300">Logout</a></li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Content Starts Here -->
+    <main class="container mx-auto p-4">
+>>>>>>> 6bc15b644a2f8ed7836ebed66c1a2e9e1961dde7
