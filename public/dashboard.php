@@ -21,6 +21,7 @@ if ($_SESSION['role'] === 'admin') {
 
 // Get the logged-in user ID
 $user_id = $_SESSION['user_id'];
+$user_name=$_SESSION['username'];
 
 // Fetch user's exchange requests from the database
 $requests_query = "SELECT * FROM exchange_requests WHERE user_id = '$user_id' ORDER BY created_at DESC";
@@ -89,7 +90,7 @@ $conn->close();
     
     <!-- Transaction Tips Section -->
     <section class="md:p-10 w-full my-40 md:my-2">
-    <h1 class="text-3xl font-bold mb-6 text-center">Welcome !</h1>
+    <h1 class="text-3xl font-bold mb-6 text-center">Welcome <?php echo $user_name; ?> !</h1>
         <h2 class="text-2xl font-bold mb-4 text-center md:text-left">Transactions Overview</h2>
         <div class="grid md:grid-cols-4 gap-4 text-center">
             <div class="bg-blue-200 p-6 rounded shadow text-blue-700">

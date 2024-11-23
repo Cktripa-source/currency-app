@@ -137,28 +137,22 @@ $conn->close();
     <!-- Update Exchange Rates -->
     <section>
         <h1 class="text-3xl font-bold text-center mb-6">Update Exchange Rates</h1>
-
-        <!-- Display current rates -->
-        <div class="text-center mb-4 space-y-2">
-            <p class="text-lg font-semibold">Current Exchange Rates:</p>
-            <p>INR to FRW: <span class="font-bold"><?php echo number_format($inr_to_frw_rate, 2); ?></span></p>
-            <p>FRW to INR: <span class="font-bold"><?php echo number_format($frw_to_inr_rate, 2); ?></span></p>
+<!-- Exchange Rates Section -->
+<section class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">Current Exchange Rates</h2>
+        <div class="grid grid-cols-2 gap-4 text-center">
+            <div class="bg-blue-100 p-6 rounded shadow">
+                <h3 class="text-lg font-bold">INR to FRW</h3>
+                <p class="text-3xl font-semibold"><?php echo number_format($inr_to_frw_rate, 2); ?></p>
+            </div>
+            <div class="bg-green-100 p-6 rounded shadow">
+                <h3 class="text-lg font-bold">FRW to INR</h3>
+                <p class="text-3xl font-semibold"><?php echo number_format($frw_to_inr_rate, 2); ?></p>
+            </div>
+           
         </div>
-
-        <!-- Update Messages -->
-        <div class="text-center mb-4">
-            <?php if (isset($message_inr_frw)): ?>
-                <p class="text-lg <?php echo strpos($message_inr_frw, 'successfully') !== false ? 'text-green-600' : 'text-red-600'; ?>">
-                    <?php echo $message_inr_frw; ?>
-                </p>
-            <?php endif; ?>
-            <?php if (isset($message_frw_inr)): ?>
-                <p class="text-lg <?php echo strpos($message_frw_inr, 'successfully') !== false ? 'text-green-600' : 'text-red-600'; ?>">
-                    <?php echo $message_frw_inr; ?>
-                </p>
-            <?php endif; ?>
-        </div>
-
+    </section>
+     
         <!-- Update Rates Form -->
         <form action="" method="POST" class="max-w-lg mx-auto bg-white p-6 rounded shadow-md space-y-4">
             <div>
