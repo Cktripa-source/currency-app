@@ -7,6 +7,20 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+if (isset($_SESSION['username'])) {
+    // Redirect to login page if the user is not logged in
+    $namec=$_SESSION['username'];
+    $emailc=$_SESSION['email'];
+   
+}
+else{
+    $namec='';
+    $emailc='';
+   
+}
+
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form input
     $name = trim($_POST['name']);
@@ -59,13 +73,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         <div>
             <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-            <input type="text" name="name" id="name" class="w-full border-gray-300 rounded-md p-2 border-2 border-blue" required>
+            <input type="text" name="name" id="name" value="<?php echo $namec; ?>" class="w-full border-gray-300 rounded-md p-2 border-2 border-blue" required>
         </div>
 
         <!-- Email -->
         <div>
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input type="email" name="email" id="email" class="w-full border-gray-300 rounded-md p-2 border-2 border-blue" required>
+            <input type="email" name="email" id="email" value="<?php echo $emailc; ?>" class="w-full border-gray-300 rounded-md p-2 border-2 border-blue" required>
         </div>
 
         <!-- Message -->

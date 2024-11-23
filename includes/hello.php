@@ -17,6 +17,9 @@
         </p>
     </div>
 </div>
-   <?php include "../includes/convert.php"; ?>
+<div class="mt-10 w-full flex justify-center">
+    <?php include "../includes/convert.php"; ?>
+</div>
+
 
 </section>

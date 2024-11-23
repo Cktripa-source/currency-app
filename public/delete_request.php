@@ -12,16 +12,16 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
 
-    // Delete the record from the database
-    $query = "DELETE FROM exchange_requests WHERE id = $id";
+    // Update the record to hide it from the admin's view
+    $query = "UPDATE exchange_requests SET hidden_from_admin = 1 WHERE id = $id";
     if ($conn->query($query) === TRUE) {
-        header('Location: admin_dashboard.php'); // Redirect back to dashboard
+        header('Location: admin.php'); // Redirect back to dashboard
         exit;
     } else {
-        echo "Error deleting record: " . $conn->error;
+        echo "Error updating record: " . $conn->error;
     }
 } else {
-    header('Location: admin_dashboard.php'); // Redirect if no ID is provided
+    header('Location: admin.php'); // Redirect if no ID is provided
     exit;
 }
 ?>

@@ -16,6 +16,7 @@ $requests_query = "
     SELECT exchange_requests.*, users.username 
     FROM exchange_requests 
     JOIN users ON exchange_requests.user_id = users.id 
+    WHERE exchange_requests.hidden_from_admin = 0
     ORDER BY exchange_requests.created_at DESC";
 $requests_result = $conn->query($requests_query);
 
@@ -231,7 +232,7 @@ $conn->close();
                             <th class="px-4 py-2 border">From</th>
                             <th class="px-4 py-2 border">To</th>
                             <th class="px-4 py-2 border">Status</th>
-                            <th class="px-4 py-2 border">Payment No.</th>
+                            <th class="px-4 py-3 border font-semibold">Payment Me & Account No</th>
                             <th class="px-4 py-2 border">Screenshot</th>
                             <th class="px-4 py-2 border">Actions</th>
                         </tr>
@@ -245,7 +246,7 @@ $conn->close();
                                 <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['from_currency']); ?></td>
                                 <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['to_currency']); ?></td>
                                 <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['status']); ?></td>
-                                <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['payment_number']); ?></td>
+                                <td class="px-4 py-3 border text-sm text-gray-700"><?php echo $request['payment_method'];?> :<span class="font-bold text-green-700 p-1 border rounded-md"> <?php echo $request['payment_number'];?></span> </td>
                                 <td class="px-4 py-2 border">
                                     <?php if (!empty($request['payment_screenshot'])): ?>
                                         <a href="uploads/payment_screenshots/<?php echo htmlspecialchars($request['payment_screenshot']); ?>" target="_blank" class="block">
@@ -254,32 +255,55 @@ $conn->close();
                                     <?php else: ?>
                                         <span>No Screenshot</span>
                                     <?php endif; ?>
-                                </td>
-                                <td class="px-4 py-2 border flex justify-center space-x-2">
-    <a href="approve_request.php?id=<?php echo $request['id']; ?>" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">✔</a>
-    <a href="reject_request.php?id=<?php echo $request['id']; ?>" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">❌</a>
-    
-    <!-- Upload Button -->
-    <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onclick="toggleUploadForm(<?php echo $request['id']; ?>)">
-        Upload Screenshot
-    </button>
+                                    <td class="px-4 py-2 border flex justify-center space-x-2">
+    <!-- Approve Button -->
+    <a href="approve_request.php?id=<?php echo $request['id']; ?>" class="bg-green-500 text-white p-2 rounded hover:bg-green-600">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 4.293a1 1 0 010 1.414l-7.5 7.5a1 1 0 01-1.414 0l-2.5-2.5a1 1 0 111.414-1.414L9 10.586l6.793-6.793a1 1 0 011.414 0z" clip-rule="evenodd" />
+        </svg>
+    </a>
+
+    <!-- Reject Button -->
+    <a href="reject_request.php?id=<?php echo $request['id']; ?>" class="bg-red-500 text-white p-2 rounded hover:bg-red-600">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+    </a>
+
+    <!-- Upload with Camera Icon -->
+    <a href="javascript:void(0);" onclick="toggleUploadForm(<?php echo $request['id']; ?>)" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M4 5a2 2 0 00-2 2v6a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-3.586l-.707-.707A1 1 0 0011.586 4H8.414a1 1 0 00-.707.293L7 5H4zm5 10a4 4 0 110-8 4 4 0 010 8zm0-2a2 2 0 100-4 2 2 0 000 4z" />
+        </svg>
+    </a>
+
+    <!-- Delete Button -->
+    <a href="delete_request.php?id=<?php echo $request['id']; ?>" class="bg-red-700 text-white p-2 rounded hover:bg-red-800" onclick="return confirm('Are you sure you want to delete this transaction?');">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M7 4a1 1 0 00-.894.553L5.382 7H3a1 1 0 000 2h1.12l1.248 6.632A2 2 0 007.366 17h5.268a2 2 0 001.998-1.735L16.88 9H18a1 1 0 100-2h-2.382l-1.724-2.447A1 1 0 0013 4H7zm1.382 2h4.236l1.5 2H6.882l1.5-2z" />
+        </svg>
+    </a>
 </td>
+
 
 <!-- Modal Form (Initially Hidden) -->
 <div id="uploadModal<?php echo $request['id']; ?>" class="hidden fixed inset-0 bg-gray-500 bg-opacity-50 z-50 flex justify-center items-center">
-    <div class="bg-white p-6 rounded shadow-lg max-w-sm w-full">
+    <div class="bg-white p-6 rounded shadow-lg max-w-sm w-full relative">
+        <button class="absolute top-2 right-4 text-3xl font-bold text-gray-700 hover:text-red-800 hover:bg-red-200 border px-2 rounded-lg" onclick="closeUploadForm('<?php echo $request['id']; ?>')">
+            &times; <!-- Close button -->
+        </button>
         <h2 class="text-xl font-bold mb-4">Upload Screenshot</h2>
-        <form action="upload_screenshot.php" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="request_id" value="<?php echo $request['id']; ?>">
-            <div class="mb-4">
-                <label for="screenshot" class="block text-sm font-medium text-gray-700">Select Screenshot</label>
-                <input type="file" name="screenshot" accept="image/*" required class="w-full mt-2 p-2 border rounded">
+        <form action="upload_screenshot.php" method="POST" enctype="multipart/form-data" class="space-y-4">
+            <input type="file" name="admin_screenshot" class="block w-full border border-gray-300 rounded p-2" required />
+            <input type="hidden" name="request_id" value="<?php echo $request['id']; ?>" />
+            <div class="flex flex-col gap-4 my-4">
+                <!-- <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" onclick="closeUploadForm('<?php echo $request['id']; ?>')">Cancel</button> -->
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Upload</button>
             </div>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full">Upload</button>
-            <button type="button" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-4 w-full" onclick="closeUploadForm(<?php echo $request['id']; ?>)">Close</button>
         </form>
     </div>
 </div>
+
 
 
                             </tr>

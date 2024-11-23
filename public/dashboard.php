@@ -149,8 +149,9 @@ $conn->close();
                 <div class="w-1/2">
                     <label for="from_currency" class="block text-sm font-medium text-gray-700">From Currency</label>
                     <select name="from_currency" id="from_currency" class="w-full border-gray-300 rounded-md border p-2 font-bold" required>
-                        <option value="INR">INR</option>
-                        <option value="FRW">FRW</option>
+                    <option value="FRW">FRW</option>    
+                    <option value="INR">INR</option>
+                        
                         <!-- Add more currencies here -->
                     </select>
                 </div>
@@ -176,15 +177,15 @@ $conn->close();
             <div>
                 <label for="payment_method" class="block text-sm font-medium text-gray-700">Payment Method</label>
                 <select name="payment_method" id="payment_method" class="w-full border-gray-300 rounded-md p-2 border font-bold" required>
-                    <option value="Bank Transfer">Bank Transfer</option>
-                    <option value="PayPal">PayPal</option>
-                    <option value="Cash">Cash</option>
+                <option value="" disabled>Choose Payment method</option>
+                <option value="Bank">Bank Transfer</option>
+                    <option value="Mobile money">Mobile Money</option>
                     <!-- Add more payment methods here -->
                 </select>
             </div>
             <div>
             <label for="amount" class="block text-sm font-medium text-gray-700">Payment Number</label>
-            <input type="number" name="pay_number" id="amount" class="w-full border-gray-300 rounded-md border p-2 font-bold" required>
+            <input type="text" name="pay_number" id="amount" class="w-full border-gray-300 rounded-md border p-2 font-bold" required>
             </div>
 
             <!-- Payment Screenshot -->
@@ -200,36 +201,42 @@ $conn->close();
         </form>
     </section>
     <!-- Your Previous Exchange Requests Section -->
-    <section>
-    <h2 class="text-2xl font-bold mb-2 p-4">Previous Requests</h2>
+    <section class="p-4">
+    <h2 class="text-2xl font-bold mb-4">Previous Requests</h2>
     <?php if ($requests_result->num_rows > 0): ?>
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-200">
+        <div class="overflow-x-auto shadow-lg rounded border border-gray-200">
+            <table class="min-w-full bg-white">
                 <thead>
-                    <tr class="bg-gray-100">
-                        <th class="px-4 py-2 border">From Currency</th>
-                        <th class="px-4 py-2 border">To Currency</th>
-                        <th class="px-4 py-2 border">Amount</th>
-                        <th class="px-4 py-2 border">Status</th>
-                        <th class="px-4 py-2 border">Date</th>
-                        <th class="px-4 py-2 border">Admin Screenshot</th>
+                    <tr class="bg-gray-100 text-gray-700 text-left">
+                        <th class="px-4 py-3 border font-semibold">From Currency</th>
+                        <th class="px-4 py-3 border font-semibold">To Currency</th>
+                        <th class="px-4 py-3 border font-semibold">Amount</th>
+                        <th class="px-4 py-3 border font-semibold">Payment M & Account N</th>
+                        <th class="px-4 py-3 border font-semibold">Status</th>
+                        <th class="px-4 py-3 border font-semibold">Date</th>
+                        <th class="px-4 py-3 border font-semibold">Admin Screenshot</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($request = $requests_result->fetch_assoc()): ?>
-                        <tr>
-                            <td class="px-4 py-2 border"><?php echo $request['from_currency']; ?></td>
-                            <td class="px-4 py-2 border"><?php echo $request['to_currency']; ?></td>
-                            <td class="px-4 py-2 border"><?php echo $request['amount']; ?></td>
-                            <td class="px-4 py-2 border"><?php echo $request['status']; ?></td>
-                            <td class="px-4 py-2 border"><?php echo $request['created_at']; ?></td>
-                            <td class="px-4 py-2 border">
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 border text-sm text-gray-700"><?php echo $request['from_currency']; ?></td>
+                            <td class="px-4 py-3 border text-sm text-gray-700"><?php echo $request['to_currency']; ?></td>
+                            <td class="px-4 py-3 border text-sm text-gray-700"><?php echo $request['amount']; ?></td>
+                            <td class="px-4 py-3 border text-sm text-gray-700"><?php echo $request['payment_method'];?> :<span class="font-bold text-green-700 p-1 border rounded-md"> <?php echo $request['payment_number'];?></span> </td>
+                            <td class="px-4 py-3 border text-sm text-gray-700">
+                                <span class="px-2 py-1 rounded-full <?php echo $request['status'] === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'; ?>">
+                                    <?php echo $request['status']; ?>
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 border text-sm text-gray-700"><?php echo $request['created_at']; ?></td>
+                            <td class="px-4 py-3 border text-sm text-gray-700 text-center">
                                 <?php if (!empty($request['admin_screenshot'])): ?>
                                     <a href="uploads/payment_screenshots/<?php echo htmlspecialchars($request['admin_screenshot']); ?>" target="_blank" title="View Full Image">
-                                        <img src="uploads/payment_screenshots/<?php echo htmlspecialchars($request['admin_screenshot']); ?>" alt="Admin Screenshot" class="max-w-[150px] h-40 rounded shadow">
+                                        <img src="uploads/payment_screenshots/<?php echo htmlspecialchars($request['admin_screenshot']); ?>" alt="Admin Screenshot" class="w-16 h-16 rounded shadow">
                                     </a>
                                 <?php else: ?>
-                                    <p class="text-center p-2 text-red-600 font-bold border">▲ : Wait screenshot !</p>
+                                    <p class="text-center text-red-600 font-bold">▲ : Wait screenshot!</p>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -238,9 +245,10 @@ $conn->close();
             </table>
         </div>
     <?php else: ?>
-        <p class="text-center">You have no exchange requests yet.</p>
+        <p class="text-center text-gray-500 mt-4">You have no exchange requests yet.</p>
     <?php endif; ?>
 </section>
+
 
 
 </main>

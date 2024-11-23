@@ -1,63 +1,113 @@
-<main class="container mx-auto p-4">
-
-<h1 class="text-4xl font-bold text-center mb-4 text-blue-700">Currency Exchange Converter</h1>
-
-<!-- Conversion Form -->
-<form action="" method="POST" class="space-y-4 bg-white p-4 md:p-10 rounded shadow-md">
-    <div class="flex space-x-4">
-        <!-- From Currency -->
-        <div class="w-1/2">
-            <label for="from_currency" class="block text-sm font-medium text-gray-700">From Currency</label>
-            <select name="from_currency" id="from_currency" class="w-full border-gray-300 rounded-md border p-2 font-bold">
-                <option value="FRW">FRW</option>
-                <option value="INR">INR</option>
-                <!-- Add more currencies here -->
-            </select>
-        </div>
-
-        <!-- To Currency -->
-        <div class="w-1/2">
-            <label for="to_currency" class="block text-sm font-medium text-gray-700">To Currency</label>
-            <select name="to_currency" id="to_currency" class="w-full border-gray-300 rounded-md border p-2 font-bold">
-                <option value="INR">INR</option>
-                <option value="FRW">FRW</option>
-                <!-- Add more currencies here -->
-            </select>
-        </div>
-    </div>
-
-    <!-- Amount -->
-    <div>
-        <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
-        <input type="number" name="amount" id="amount" class="w-full border-gray-300 rounded-md border p-2 font-bold" required>
-    </div>
-
-    <button type="submit" class="bg-blue-600 text-white font-bold px-6 py-2 rounded hover:bg-blue-700 w-full">Convert</button>
-</form>
-
 <?php
-// Handle form submission and currency conversion
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $from_currency = $_POST['from_currency'];
-    $to_currency = $_POST['to_currency'];
-    $amount = $_POST['amount'];
-
-    // Check if the rate exists
-    if (isset($rates[$from_currency][$to_currency])) {
-        $rate = $rates[$from_currency][$to_currency];
-        $converted_amount = $amount * $rate;
-
-        // Display the conversion result
-        echo "<div class='mt-8 text-center p-2 border bg-green-100 rounded-md'>
-                <h2 class='text-2xl font-bold text-green-600'>Conversion Result</h2>
-                <p class='text-lg'>${amount} ${from_currency} = " . round($converted_amount, 2) . " ${to_currency}</p>
-              </div>";
-    } else {
-        echo "<div class='mt-8 text-center text-red-600 p-2 border bg-red-100 rounded-md'>
-                <p class='text-lg'>Sorry, the conversion rate for ${from_currency} to ${to_currency} is not available.</p>
-              </div>";
-    }
+// Database connection
+$conn = mysqli_connect('localhost', 'root', '', 'currency-app');
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
 }
+
+// Fetch available currencies from exchange_rates table
+$query = "SELECT DISTINCT from_currency, to_currency FROM exchange_rates";
+$result = mysqli_query($conn, $query);
+
+// Prepare an array of unique currencies
+$currencies = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $currencies[] = $row['from_currency'];
+    $currencies[] = $row['to_currency'];
+}
+$currencies = array_unique($currencies);
 ?>
 
-</main>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function convertCurrency(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Fetch form data
+            const fromCurrency = document.getElementById('from_currency').value;
+            const toCurrency = document.getElementById('to_currency').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+
+            if (!fromCurrency || !toCurrency || isNaN(amount) || amount <= 0) {
+                alert('Please fill in all fields correctly.');
+                return;
+            }
+
+            // Perform the calculation (simulate server-side logic)
+            const rates = <?php
+                // Fetch rates as a JavaScript object
+                $rateQuery = "SELECT from_currency, to_currency, rate FROM exchange_rates";
+                $rateResult = mysqli_query($conn, $rateQuery);
+                $rates = [];
+                while ($rateRow = mysqli_fetch_assoc($rateResult)) {
+                    $rates[$rateRow['from_currency']][$rateRow['to_currency']] = $rateRow['rate'];
+                }
+                echo json_encode($rates);
+            ?>;
+
+            if (!rates[fromCurrency] || !rates[fromCurrency][toCurrency]) {
+                alert('Exchange rate not found!');
+                return;
+            }
+
+            const rate = rates[fromCurrency][toCurrency];
+            const convertedAmount = (amount * rate).toFixed(2);
+
+            // Display the result in a centered prompt
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <div class="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
+                    <div class="bg-white p-6 rounded shadow-lg text-center">
+                        <h2 class="text-xl font-bold mb-4">Converted Amount</h2>
+                        <p class="text-2xl font-semibold">${convertedAmount} ${toCurrency}</p>
+                        <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700" onclick="closeResult()">Close</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function closeResult() {
+            document.getElementById('result').innerHTML = '';
+        }
+    </script>
+</head>
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+    <div class="bg-white p-6 rounded shadow-lg md:w-2/3 w-full">
+        <h1 class="text-center text-2xl font-bold mb-4">Currency Converter</h1>
+        <form id="converterForm" onsubmit="convertCurrency(event)" class="space-y-4">
+            <div>
+                <label for="from_currency" class="block text-sm font-medium text-gray-700">From Currency</label>
+                <select id="from_currency" name="from_currency" required class="w-full border border-gray-300 p-2 rounded">
+                    <option value="">Select Currency</option>
+                    <?php foreach ($currencies as $currency): ?>
+                        <option value="<?php echo $currency; ?>"><?php echo $currency; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div>
+                <label for="to_currency" class="block text-sm font-medium text-gray-700">To Currency</label>
+                <select id="to_currency" name="to_currency" required class="w-full border border-gray-300 p-2 rounded">
+                    <option value="">Select Currency</option>
+                    <?php foreach ($currencies as $currency): ?>
+                        <option value="<?php echo $currency; ?>"><?php echo $currency; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div>
+                <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
+                <input type="number" step="0.01" id="amount" name="amount" required class="w-full border border-gray-300 p-2 rounded">
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700">Convert</button>
+        </form>
+    </div>
+
+    <!-- Result Modal -->
+    <div id="result"></div>
+</body>
+</html>
