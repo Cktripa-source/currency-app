@@ -17,7 +17,7 @@ if ($rates_result->num_rows > 0) {
 }
 
 ?>
-<main class="container mx-auto p-4">
+<main class="container mx-auto p-4 my-20">
     <!-- Chart Section -->
     <div class="bg-white p-6 rounded shadow-md mb-8">
         <h2 class="text-2xl font-semibold text-center mb-4">Exchange Rate Trend</h2>

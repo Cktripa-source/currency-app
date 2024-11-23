@@ -1,6 +1,6 @@
 
 
-<section class="bg-center bg-no-repeat bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/conference.jpg')] bg-gray-700 bg-blend-multiply">
+<section class="bg-center bg-no-repeat bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/conference.jpg')] bg-gray-700 bg-blend-multiply my-20">
 <div
     class="relative flex items-center justify-center w-full h-screen bg-cover bg-center"
     style="background-image: url('./assets/bitcoin-11224.gif');"

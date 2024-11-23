@@ -41,7 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 <?php include "../includes/header.php"; ?>
 
-<main class="container mx-auto p-2">
+<main class="container mx-auto p-2 my-24">
+    
+    <div class=" font-bold font-mono text-blue-700 my-20">
+    <h1 class="text-3xl font-bold text-center ">Contact Us</h1>
+    </div>
     <?php if (isset($error)): ?>
         <div class="bg-red-600 text-white p-4 rounded">
             <p><?php echo $error; ?></p>
@@ -51,10 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p><?php echo $success; ?></p>
         </div>
     <?php endif; ?>
-    <div class=" font-bold font-mono text-blue-700 my-20">
-    <h1 class="text-3xl font-bold text-center ">Contact Us</h1>
-    </div>
-
     <form action="" method="POST" class="bg-white p-6 rounded shadow-md">
         
         <div>
@@ -77,6 +77,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Send Message</button>
     </form>
 </main>
-
+<?php include "../includes/footer.php";?>
 </body>
 </html>

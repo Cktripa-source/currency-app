@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!-- Registration Form -->
-<main class="container mx-auto p-4">
+<main class="container mx-auto p-4 my-20">
 
     <h1 class="text-3xl font-semibold text-center my-20">Register</h1>
 

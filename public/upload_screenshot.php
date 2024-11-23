@@ -43,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['admin_screenshot']))
                     if ($stmt->execute()) {
                         // Redirect back to the admin dashboard with a success message
                         header('Location: admin.php?success=1');
+                        exit; // Ensure script stops executing after redirect
                     } else {
                         // Database update failed
                         echo "Error updating the request. Please try again later.";
@@ -57,10 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['admin_screenshot']))
             echo "Invalid file type. Only JPG, PNG, and GIF files are allowed.";
         }
     } else {
+        // Handle error in file upload (UPLOAD_ERR_OK is 0 for success)
         echo "Error uploading file. Error code: " . $file['error'];
     }
 } else {
+    // If no file was uploaded
     echo "No file was uploaded.";
 }
-
 ?>

@@ -48,8 +48,6 @@ while ($row = $status_counts_result->fetch_assoc()) {
 // Calculate total transactions
 $total_transactions = array_sum($status_counts);
 
-<<<<<<< HEAD
-=======
 
 // other selection of message 
 
@@ -106,203 +104,195 @@ if ($result->num_rows > 0) {
 
 $conn->close();
 
->>>>>>> 6bc15b644a2f8ed7836ebed66c1a2e9e1961dde7
 ?>
+<main class="container mx-auto p-4 space-y-8">
+    <!-- Notification -->
+    <div
+        id="notification"
+        class="bg-blue-600 text-white px-4 py-3 rounded shadow-lg fixed top-5 right-5 flex flex-col md:flex-row md:items-center md:space-x-4 space-y-4 md:space-y-0 w-11/12 max-w-md z-50"
+    >
+        <div>
+            <h4 class="text-sm font-medium">
+                <strong>New Message:</strong> Received from
+                <span class="font-bold">
+                    <?php 
+                    echo isset($message['name']) && !empty($message['name']) 
+                        ? htmlspecialchars($message['name']) 
+                        : "Unknown Sender";
+                    ?>
+                </span>
+            </h4>
+            <a href="../public/cont_view.php" class="hover:underline text-white font-medium text-sm">
+                View Contact Messages
+            </a>
+        </div>
+        <button
+            class="text-white font-bold bg-blue-700 hover:bg-blue-800 px-2 py-1 rounded text-sm"
+            onclick="document.getElementById('notification').style.display='none';"
+        >
+            Close
+        </button>
+    </div>
 
-<main class="container mx-auto p-4 ">
-    <!-- Admin Navigation -->
-<<<<<<< HEAD
-    <nav class="bg-blue-600 text-white px-4 py-3 rounded mb-6 flex justify-between items-center">
-        <h1 class="text-xl font-bold">Admin Dashboard</h1>
-        <div>
-            <a href="../public/cont_view.php" class="hover:underline text-white font-medium">View Contact Messages</a>
-        </div>
-    </nav>
-=======
-    <nav class="bg-blue-600 text-white px-4 py-2 rounded mb-5 flex justify-between">
-        <h1 class="text-xl font-bold">Admin Dashboard</h1>
-        <div>
-          <h4>Recived message from:<?php echo $message['name']; ?></h4>  <a href="../public/cont_view.php" class="hover:underline text-white font-medium">View Contact Messages</a>
-        </div>
-    </nav>
-    <br>
-    <!--- rate change/update-->
-    <div class="container mx-auto p-8">
+    <!-- Update Exchange Rates -->
+    <section>
         <h1 class="text-3xl font-bold text-center mb-6">Update Exchange Rates</h1>
 
         <!-- Display current rates -->
-        <div class="text-center mb-4">
-            <p class="text-lg">Current Exchange Rates:</p>
-            <p class="text-lg">INR to FRW: <span class="font-semibold"><?php echo number_format($inr_to_frw_rate, 2); ?></span></p>
-            <p class="text-lg">FRW to INR: <span class="font-semibold"><?php echo number_format($frw_to_inr_rate, 2); ?></span></p>
+        <div class="text-center mb-4 space-y-2">
+            <p class="text-lg font-semibold">Current Exchange Rates:</p>
+            <p>INR to FRW: <span class="font-bold"><?php echo number_format($inr_to_frw_rate, 2); ?></span></p>
+            <p>FRW to INR: <span class="font-bold"><?php echo number_format($frw_to_inr_rate, 2); ?></span></p>
         </div>
 
-        <!-- Display message for INR to FRW rate update -->
-        <?php if (isset($message_inr_frw)): ?>
-            <div class="text-center mb-4">
+        <!-- Update Messages -->
+        <div class="text-center mb-4">
+            <?php if (isset($message_inr_frw)): ?>
                 <p class="text-lg <?php echo strpos($message_inr_frw, 'successfully') !== false ? 'text-green-600' : 'text-red-600'; ?>">
                     <?php echo $message_inr_frw; ?>
                 </p>
-            </div>
-        <?php endif; ?>
-
-        <!-- Display message for FRW to INR rate update -->
-        <?php if (isset($message_frw_inr)): ?>
-            <div class="text-center mb-4">
+            <?php endif; ?>
+            <?php if (isset($message_frw_inr)): ?>
                 <p class="text-lg <?php echo strpos($message_frw_inr, 'successfully') !== false ? 'text-green-600' : 'text-red-600'; ?>">
                     <?php echo $message_frw_inr; ?>
                 </p>
-            </div>
-        <?php endif; ?>
+            <?php endif; ?>
+        </div>
 
         <!-- Update Rates Form -->
-        <form action="" method="POST" class="max-w-md mx-auto bg-white p-6 rounded shadow-md">
-            <!-- INR to FRW Rate -->
-            <div class="mb-4">
+        <form action="" method="POST" class="max-w-lg mx-auto bg-white p-6 rounded shadow-md space-y-4">
+            <div>
                 <label for="inr_to_frw" class="block text-sm font-medium text-gray-700">New Exchange Rate (INR to FRW)</label>
-                <input type="text" name="inr_to_frw" id="inr_to_frw" 
-                    class="w-full border-gray-300 rounded-md p-2" required 
-                    value="<?php echo $inr_to_frw_rate; ?>" placeholder="Enter INR to FRW rate" />
+                <input
+                    type="text"
+                    name="inr_to_frw"
+                    id="inr_to_frw"
+                    class="w-full border-gray-300 rounded-md p-2"
+                    required
+                    value="<?php echo $inr_to_frw_rate; ?>"
+                    placeholder="Enter INR to FRW rate"
+                />
             </div>
-
-            <!-- FRW to INR Rate -->
-            <div class="mb-4">
+            <div>
                 <label for="frw_to_inr" class="block text-sm font-medium text-gray-700">New Exchange Rate (FRW to INR)</label>
-                <input type="text" name="frw_to_inr" id="frw_to_inr" 
-                    class="w-full border-gray-300 rounded-md p-2" required 
-                    value="<?php echo $frw_to_inr_rate; ?>" placeholder="Enter FRW to INR rate" />
+                <input
+                    type="text"
+                    name="frw_to_inr"
+                    id="frw_to_inr"
+                    class="w-full border-gray-300 rounded-md p-2"
+                    required
+                    value="<?php echo $frw_to_inr_rate; ?>"
+                    placeholder="Enter FRW to INR rate"
+                />
             </div>
-
-            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+            <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                 Update Rates
             </button>
         </form>
-    </div>
->>>>>>> 6bc15b644a2f8ed7836ebed66c1a2e9e1961dde7
+    </section>
+    <div class="chart-container">
+    <canvas id="statusDoughnutChart"></canvas>
+</div>
 
-    <?php if (isset($_GET['message'])): ?>
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-            <?php echo htmlspecialchars($_GET['message']); ?>
+    <!-- Transactions Overview -->
+    <section>
+        <h2 class="text-2xl font-bold mb-4">Transactions Overview</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-blue-100 p-6 rounded shadow text-center">
+                <h3 class="text-lg font-bold">Total Transactions</h3>
+                <p class="text-3xl font-semibold"><?php echo $total_transactions; ?></p>
+            </div>
+            <div class="bg-green-100 p-6 rounded shadow text-center">
+                <h3 class="text-lg font-bold">Approved</h3>
+                <p class="text-3xl font-semibold"><?php echo $status_counts['approved']; ?></p>
+            </div>
+            <div class="bg-yellow-100 p-6 rounded shadow text-center">
+                <h3 class="text-lg font-bold">Pending</h3>
+                <p class="text-3xl font-semibold"><?php echo $status_counts['pending']; ?></p>
+            </div>
+            <div class="bg-red-100 p-6 rounded shadow text-center">
+                <h3 class="text-lg font-bold">Rejected</h3>
+                <p class="text-3xl font-semibold"><?php echo $status_counts['rejected']; ?></p>
+            </div>
         </div>
-    <?php endif; ?>
-
-    <?php if (isset($_GET['error'])): ?>
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            <?php echo htmlspecialchars($_GET['error']); ?>
-        </div>
-    <?php endif; ?>
-
-    <h1 class="text-3xl font-semibold text-center mb-8">Admin Dashboard</h1>
-
-    <!-- Exchange Requests Section -->
-    <section class="mb-8">
-    <h2 class="text-2xl font-bold mb-4">Transactions Overview</h2>
-    <div class="grid grid-cols-3 gap-4 text-center">
-        <div class="bg-blue-100 p-6 rounded shadow">
-            <h3 class="text-lg font-bold">Total Transactions</h3>
-            <p class="text-3xl font-semibold"><?php echo $total_transactions; ?></p>
-        </div>
-        <div class="bg-green-100 p-6 rounded shadow">
-            <h3 class="text-lg font-bold">Approved</h3>
-            <p class="text-3xl font-semibold"><?php echo $status_counts['approved']; ?></p>
-        </div>
-        <div class="bg-yellow-100 p-6 rounded shadow">
-            <h3 class="text-lg font-bold">Pending</h3>
-            <p class="text-3xl font-semibold"><?php echo $status_counts['pending']; ?></p>
-        </div>
-        <div class="bg-red-100 p-6 rounded shadow">
-            <h3 class="text-lg font-bold">Rejected</h3>
-            <p class="text-3xl font-semibold"><?php echo $status_counts['rejected']; ?></p>
-        </div>
-    </div>
-</section>
-
-    <!-- Radar Chart -->
-     <div class="bg-blue-50 p-6 rounded shadow">
-    <canvas id="statusDoughnutChart" width="400" height="400"></canvas>
-    </div>
-<!-- end this -->
-    <section class="mb-8">
-        <h2 class="text-2xl font-bold mb-4">User Exchange Requests</h2>
-        
-        <?php if ($requests_result->num_rows > 0): ?>
-            <table class="min-w-full bg-white border border-gray-200">
-                <thead>
-                    <tr class="bg-gray-100">
-                        <th class="px-4 py-2 border">User ID</th>
-                        <th class="px-4 py-2 border">Username</th>
-                        <th class="px-4 py-2 border">Amount</th>
-                        <th class="px-4 py-2 border">From Currency</th>
-                        <th class="px-4 py-2 border">To Currency</th>
-                        <th class="px-4 py-2 border">Status</th>
-<<<<<<< HEAD
-                        <th class="px-4 py-2 border">User Payment Screenshot</th>
-=======
-                        <th class="px-4 py-2 border">payment_number</th>
-                        <th class="px-4 py-2 border">User Payment Screenshot</th>
-                        <th class="px-4 py-2 border">payment_number</th>
->>>>>>> 6bc15b644a2f8ed7836ebed66c1a2e9e1961dde7
-                        <th class="px-4 py-2 border">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($request = $requests_result->fetch_assoc()): ?>
-                        <tr>
-                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['user_id']); ?></td>
-                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['username']); ?></td>
-                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['amount']); ?></td>
-                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['from_currency']); ?></td>
-                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['to_currency']); ?></td>
-                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['status']); ?></td>
-<<<<<<< HEAD
-=======
-                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['pay_number']); ?></td>
->>>>>>> 6bc15b644a2f8ed7836ebed66c1a2e9e1961dde7
-                            <td class="px-4 py-2 border">
-                                <?php if (!empty($request['payment_screenshot'])): ?>
-                                    <a href="uploads/payment_screenshots/<?php echo htmlspecialchars($request['payment_screenshot']); ?>" target="_blank" title="View Full Image">
-                                        <img src="uploads/payment_screenshots/<?php echo htmlspecialchars($request['payment_screenshot']); ?>" alt="User Screenshot" class="max-w-[150px] h-32 rounded shadow">
-                                    </a>
-                                <?php else: ?>
-                                    <p>No screenshot uploaded</p>
-                                <?php endif; ?>
-                            </td>
-                            <td class="px-4 py-2 border">
-                                <a title="APPROVE" href="approve_request.php?id=<?php echo $request['id']; ?>" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">✔</a>
-                                <a title="REJECT" href="reject_request.php?id=<?php echo $request['id']; ?>" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">❌</a>
-                                <button onclick="showUploadForm(<?php echo $request['id']; ?>)" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">📷 Screenshot</button>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p class="text-center">No exchange requests found.</p>
-        <?php endif; ?>
     </section>
 
-    <!-- Admin Screenshot Upload Form (Hidden initially) -->
-    <div id="uploadFormContainer" style="display: none;" class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
-        <div class="bg-white p-6 rounded shadow-lg max-w-md w-full">
-            <h2 class="text-2xl font-bold mb-4">Upload Admin Screenshot</h2>
+    <!-- Exchange Requests -->
+    <section>
+        <h2 class="text-2xl font-bold mb-4">User Exchange Requests</h2>
+        <?php if ($requests_result->num_rows > 0): ?>
+            <div class="overflow-x-auto">
+                <table class="w-full bg-white border border-gray-200 text-sm">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-2 border">User ID</th>
+                            <th class="px-4 py-2 border">Username</th>
+                            <th class="px-4 py-2 border">Amount</th>
+                            <th class="px-4 py-2 border">From</th>
+                            <th class="px-4 py-2 border">To</th>
+                            <th class="px-4 py-2 border">Status</th>
+                            <th class="px-4 py-2 border">Payment No.</th>
+                            <th class="px-4 py-2 border">Screenshot</th>
+                            <th class="px-4 py-2 border">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($request = $requests_result->fetch_assoc()): ?>
+                            <tr>
+                                <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['user_id']); ?></td>
+                                <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['username']); ?></td>
+                                <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['amount']); ?></td>
+                                <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['from_currency']); ?></td>
+                                <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['to_currency']); ?></td>
+                                <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['status']); ?></td>
+                                <td class="px-4 py-2 border"><?php echo htmlspecialchars($request['payment_number']); ?></td>
+                                <td class="px-4 py-2 border">
+                                    <?php if (!empty($request['payment_screenshot'])): ?>
+                                        <a href="uploads/payment_screenshots/<?php echo htmlspecialchars($request['payment_screenshot']); ?>" target="_blank" class="block">
+                                            <img src="uploads/payment_screenshots/<?php echo htmlspecialchars($request['payment_screenshot']); ?>" alt="Screenshot" class="w-16 h-16 rounded shadow">
+                                        </a>
+                                    <?php else: ?>
+                                        <span>No Screenshot</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="px-4 py-2 border flex justify-center space-x-2">
+    <a href="approve_request.php?id=<?php echo $request['id']; ?>" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">✔</a>
+    <a href="reject_request.php?id=<?php echo $request['id']; ?>" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">❌</a>
+    
+    <!-- Upload Button -->
+    <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onclick="toggleUploadForm(<?php echo $request['id']; ?>)">
+        Upload Screenshot
+    </button>
+</td>
 
-            <form action="admin_screenshot.php" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="request_id" id="request_id">
-
-                <div>
-                    <label for="admin_screenshot" class="block text-sm font-medium text-gray-700">Admin Screenshot</label>
-                    <input type="file" name="admin_screenshot" id="admin_screenshot" class="w-full border-gray-300 rounded-md" accept="image/*" required>
-                </div>
-
-                <div class="mt-4 text-right">
-                    <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">Upload Screenshot</button>
-                    <button type="button" onclick="hideUploadForm()" class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 ml-2">Cancel</button>
-                </div>
-            </form>
-        </div>
+<!-- Modal Form (Initially Hidden) -->
+<div id="uploadModal<?php echo $request['id']; ?>" class="hidden fixed inset-0 bg-gray-500 bg-opacity-50 z-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded shadow-lg max-w-sm w-full">
+        <h2 class="text-xl font-bold mb-4">Upload Screenshot</h2>
+        <form action="upload_screenshot.php" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="request_id" value="<?php echo $request['id']; ?>">
+            <div class="mb-4">
+                <label for="screenshot" class="block text-sm font-medium text-gray-700">Select Screenshot</label>
+                <input type="file" name="screenshot" accept="image/*" required class="w-full mt-2 p-2 border rounded">
+            </div>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full">Upload</button>
+            <button type="button" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-4 w-full" onclick="closeUploadForm(<?php echo $request['id']; ?>)">Close</button>
+        </form>
     </div>
+</div>
 
+
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php else: ?>
+            <p class="text-center text-gray-600">No exchange requests found.</p>
+        <?php endif; ?>
+    </section>
 </main>
+
 
 <?php include '../includes/footer.php'; ?>
 
@@ -310,7 +300,6 @@ $conn->close();
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-// Doughnut Chart Data
 const doughnutData = {
     labels: ['Approved', 'Pending', 'Rejected'],
     datasets: [
@@ -336,7 +325,6 @@ const doughnutData = {
     ]
 };
 
-// Doughnut Chart Configuration
 const doughnutConfig = {
     type: 'doughnut',
     data: doughnutData,
@@ -344,7 +332,7 @@ const doughnutConfig = {
         responsive: true,
         plugins: {
             legend: {
-                position: 'top' // Position of the legend
+                position: 'top'
             },
             tooltip: {
                 callbacks: {
@@ -360,7 +348,18 @@ const doughnutConfig = {
 };
 
 // Render Doughnut Chart
-const doughnutCtx = document.getElementById('statusDoughnutChart').getContext('2d');
-new Chart(doughnutCtx, doughnutConfig);
+// Show the modal (upload form)
+function toggleUploadForm(requestId) {
+    const modal = document.getElementById(`uploadModal${requestId}`);
+    modal.style.display = "flex";  // Show the modal by making it a flex container
+}
+
+// Close the modal (upload form)
+function closeUploadForm(requestId) {
+    const modal = document.getElementById(`uploadModal${requestId}`);
+    modal.style.display = "none";  // Hide the modal
+}
+
+
 </script>
 
