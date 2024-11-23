@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Currency Exchange</title>
     
-<<<<<<< HEAD
     <!-- TailwindCSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -18,29 +17,22 @@
             menu.classList.toggle('hidden');
         }
     </script>
-=======
-    <!-- TailwindCSS CDN (or you can use a local build if preferred) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Additional meta tags and external resources can go here -->
->>>>>>> 6bc15b644a2f8ed7836ebed66c1a2e9e1961dde7
 </head>
 <body class="bg-gray-100 text-gray-900">
 
     <!-- Header Section -->
-<<<<<<< HEAD
     <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="../public/asset/app-icon.png" class="h-8" alt="Currency Exchange Logo">
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Currency Exchange</span>
             </a>
-            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-6 my-6 md:my-0 md:w-1/3 w-full md:justify-end justify-between p-2 ">
                 <?php if (!isset($_SESSION['user_id'])): ?>
                     <a href="login.php" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</a>
-                    <a href="register.php" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Register</a>
+                    <a href="register.php" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Register</a>
                 <?php else: ?>
-                    <a href="logout.php" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Logout</a>
+                    <a href="logout.php" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2  text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Logout</a>
                 <?php endif; ?>
                 <button onclick="toggleMenu()" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                     <span class="sr-only">Open main menu</span>
@@ -52,7 +44,7 @@
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
                 <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                     <li>
-                        <a href="index.php" class="block py-2 px-3 text-white rounded md:bg-transparent md:p-0" aria-current="page">Home</a>
+                        <a href="index.php" class="block py-2 px-3 text-white rounded md:bg-transparent md:p-0 hover:text-blue-700" aria-current="page">Home</a>
                     </li>
                     <?php if (!isset($_SESSION['role']) || $_SESSION['role'] != "admin"): ?>
     <li>
@@ -71,32 +63,3 @@
     </nav>
 </body>
 </html>
-=======
-    <header class="bg-blue-600 text-white p-4 shadow-md">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <!-- Logo or App Name -->
-            <a href="index.php" class="text-2xl font-bold">
-                Currency Exchange
-            </a>
-            
-            <!-- Navigation Menu -->
-            <nav>
-                <ul class="flex space-x-4">
-                    <li><a href="index.php" class="hover:text-blue-300">Home</a></li>
-                    <?php if (!isset($_SESSION['user_id'])): ?>
-                    <li><a href="login.php" class="hover:text-blue-300">Login</a></li>
-                    <li><a href="register.php" class="hover:text-blue-300">Register</a></li>
-                    <?php endif; ?>
-                    <?php if (isset($_SESSION['user_id'])): ?>
-                        <li><a href="dashboard.php" class="hover:text-blue-300">Dashboard</a></li>
-                        <li><a href="../public/contact.php" class="hover:text-blue-300">Contact Us</a></li>
-                        <li><a href="logout.php" class="hover:text-blue-300">Logout</a></li>
-                    <?php endif; ?>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Page Content Starts Here -->
-    <main class="container mx-auto p-4">
->>>>>>> 6bc15b644a2f8ed7836ebed66c1a2e9e1961dde7

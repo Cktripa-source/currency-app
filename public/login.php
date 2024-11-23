@@ -68,9 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!-- Login Form -->
-<main class="container mx-auto p-4">
+<main class="container mx-auto p-4 my-40 md:my-2">
 
-    <h1 class="text-3xl font-semibold text-center mb-8">Login</h1>
+    <h1 class="text-3xl font-semibold text-center mb-20">Login</h1>
 
     <?php if (isset($error)): ?>
         <div class="bg-red-600 text-white p-4 rounded mb-4">

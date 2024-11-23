@@ -58,14 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!-- Registration Form -->
 <main class="container mx-auto p-4">
 
-<<<<<<< HEAD
-    <h1 class="text-3xl font-semibold text-center mb-8">Register</h1>
-=======
-    <h1 class="text-3xl font-semibold text-center mb-8">Registers</h1>
->>>>>>> 6bc15b644a2f8ed7836ebed66c1a2e9e1961dde7
+    <h1 class="text-3xl font-semibold text-center my-20">Register</h1>
 
     <?php if (isset($error)): ?>
-        <div class="bg-red-600 text-white p-4 rounded mb-4">
+        <div class="bg-red-600 text-white p-4 rounded ">
             <p><?php echo $error; ?></p>
         </div>
     <?php endif; ?>
@@ -74,25 +70,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- Username -->
         <div>
             <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-            <input type="text" name="username" id="username" class="w-full border-gray-300 rounded-md" required>
+            <input type="text" name="username" id="username" class="w-full border-gray-300 rounded-md p-2 border-2 border-blue " required>
         </div>
 
         <!-- Email -->
         <div>
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input type="email" name="email" id="email" class="w-full border-gray-300 rounded-md" required>
+            <input type="email" name="email" id="email" class="w-full border-gray-300 rounded-md p-2 border-blue-400 border" required>
         </div>
 
         <!-- Password -->
         <div>
             <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-            <input type="password" name="password" id="password" class="w-full border-gray-300 rounded-md" required>
+            <input type="password" name="password" id="password" class="w-full border-gray-300 rounded-md p-2 border-blue-400 border" required>
         </div>
 
         <!-- Confirm Password -->
         <div>
             <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-            <input type="password" name="confirm_password" id="confirm_password" class="w-full border-gray-300 rounded-md" required>
+            <input type="password" name="confirm_password" id="confirm_password" class="w-full border-gray-300 rounded-md p-2 border-blue-400 border" required>
         </div>
 
         <!-- Hidden role for Admin Registration -->

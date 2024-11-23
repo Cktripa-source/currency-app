@@ -39,58 +39,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-<<<<<<< HEAD
+<?php include "../includes/header.php"; ?>
 
-<main class="container mx-auto p-6">
-    <h1 class="text-3xl font-bold text-center mb-6">Contact Us</h1>
-
-=======
-<div class="bg-blue-600 text-white p-4 shadow-md">
-    <h1 class="text-3xl font-bold text-center mb-6">Contact Us</h1>
-    </div>
-
-<main class="container mx-auto p-6">
-    
->>>>>>> 6bc15b644a2f8ed7836ebed66c1a2e9e1961dde7
+<main class="container mx-auto p-2">
     <?php if (isset($error)): ?>
-        <div class="bg-red-600 text-white p-4 rounded mb-4">
+        <div class="bg-red-600 text-white p-4 rounded">
             <p><?php echo $error; ?></p>
         </div>
     <?php elseif (isset($success)): ?>
-        <div class="bg-green-600 text-white p-4 rounded mb-4">
+        <div class="bg-green-600 text-white p-4 rounded ">
             <p><?php echo $success; ?></p>
         </div>
     <?php endif; ?>
+    <div class=" font-bold font-mono text-blue-700 my-20">
+    <h1 class="text-3xl font-bold text-center ">Contact Us</h1>
+    </div>
 
-    <form action="" method="POST" class="bg-white p-6 rounded shadow-md space-y-4">
-        <!-- Name -->
+    <form action="" method="POST" class="bg-white p-6 rounded shadow-md">
+        
         <div>
             <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-            <input type="text" name="name" id="name" class="w-full border-gray-300 rounded-md" required>
+            <input type="text" name="name" id="name" class="w-full border-gray-300 rounded-md p-2 border-2 border-blue" required>
         </div>
 
         <!-- Email -->
         <div>
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input type="email" name="email" id="email" class="w-full border-gray-300 rounded-md" required>
+            <input type="email" name="email" id="email" class="w-full border-gray-300 rounded-md p-2 border-2 border-blue" required>
         </div>
 
         <!-- Message -->
         <div>
             <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
-            <textarea name="message" id="message" class="w-full border-gray-300 rounded-md" rows="5" required></textarea>
+            <textarea name="message" id="message" class="w-full border-gray-300 rounded-md p-2 border-2 border-blue" rows="5" required></textarea>
         </div>
 
         <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Send Message</button>
     </form>
-<<<<<<< HEAD
 </main>
 
-=======
-    <button type="submit" onclick="window.location.href='dashboard.php'" class="bg-blue-600 text-white m-20 px-6 py-2 rounded hover:bg-blue-700">back to 🏡</button>
-</main>
-
-
->>>>>>> 6bc15b644a2f8ed7836ebed66c1a2e9e1961dde7
 </body>
 </html>
