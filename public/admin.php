@@ -138,29 +138,30 @@ $conn->close();
     <!-- Update Exchange Rates -->
     <section>
         <h1 class="text-3xl font-bold text-center mb-6">Update Exchange Rates</h1>
-
-        <!-- Display current rates -->
-        <div class="text-center mb-4 space-y-2">
-            <p class="text-lg font-semibold">Current Exchange Rates:</p>
-            <p>INR to FRW: <span class="font-bold"><?php echo number_format($inr_to_frw_rate, 2); ?></span></p>
-            <p>FRW to INR: <span class="font-bold"><?php echo number_format($frw_to_inr_rate, 2); ?></span></p>
+<!-- Exchange Rates Section -->
+<section class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">Current Exchange Rates</h2>
+        <div class="grid grid-cols-2 gap-4 text-center">
+            <div class="bg-blue-100 p-6 rounded shadow">
+                <h3 class="text-lg font-bold">INR to FRW</h3>
+                <p class="text-3xl font-semibold"><?php echo number_format($inr_to_frw_rate, 2); ?></p>
+            </div>
+            <div class="bg-green-100 p-6 rounded shadow">
+                <h3 class="text-lg font-bold">FRW to INR</h3>
+                <p class="text-3xl font-semibold"><?php echo number_format($frw_to_inr_rate, 2); ?></p>
+            </div>
+           
         </div>
-
-        <!-- Update Messages -->
-        <div class="text-center mb-4">
-            <?php if (isset($message_inr_frw)): ?>
-                <p class="text-lg <?php echo strpos($message_inr_frw, 'successfully') !== false ? 'text-green-600' : 'text-red-600'; ?>">
-                    <?php echo $message_inr_frw; ?>
-                </p>
-            <?php endif; ?>
-            <?php if (isset($message_frw_inr)): ?>
-                <p class="text-lg <?php echo strpos($message_frw_inr, 'successfully') !== false ? 'text-green-600' : 'text-red-600'; ?>">
-                    <?php echo $message_frw_inr; ?>
-                </p>
-            <?php endif; ?>
-        </div>
-
-        <!-- Update Rates Form -->
+    </section>
+     
+       
+        <div class="md:flex">
+            <!-- convert -->
+             <div class="md:w-1/2">
+                <?php include "../includes/convert.php"; ?>
+             </div>
+         <!-- Update Rates Form -->
+        <div class="md:w-1/2 my-10">
         <form action="" method="POST" class="max-w-lg mx-auto bg-white p-6 rounded shadow-md space-y-4">
             <div>
                 <label for="inr_to_frw" class="block text-sm font-medium text-gray-700">New Exchange Rate (INR to FRW)</label>
@@ -168,7 +169,7 @@ $conn->close();
                     type="text"
                     name="inr_to_frw"
                     id="inr_to_frw"
-                    class="w-full border-gray-300 rounded-md p-2"
+                    class="w-full border-gray-300 rounded-md p-2 border font-bold"
                     required
                     value="<?php echo $inr_to_frw_rate; ?>"
                     placeholder="Enter INR to FRW rate"
@@ -180,7 +181,7 @@ $conn->close();
                     type="text"
                     name="frw_to_inr"
                     id="frw_to_inr"
-                    class="w-full border-gray-300 rounded-md p-2"
+                    class="w-full border-gray-300 rounded-md p-2 border font-bold"
                     required
                     value="<?php echo $frw_to_inr_rate; ?>"
                     placeholder="Enter FRW to INR rate"
@@ -190,11 +191,12 @@ $conn->close();
                 Update Rates
             </button>
         </form>
+        </div>
+        </div>
     </section>
-    <div class="chart-container">
-    <canvas id="statusDoughnutChart"></canvas>
+    <div class="chart-container bg-white p-2 rounded-lg " style="max-width: 100%;">
+    <canvas id="statusBarChart" style="max-width: 100%; height: auto;"></canvas>
 </div>
-
     <!-- Transactions Overview -->
     <section>
         <h2 class="text-2xl font-bold mb-4">Transactions Overview</h2>
@@ -324,7 +326,7 @@ $conn->close();
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-const doughnutData = {
+const barData = {
     labels: ['Approved', 'Pending', 'Rejected'],
     datasets: [
         {
@@ -349,14 +351,14 @@ const doughnutData = {
     ]
 };
 
-const doughnutConfig = {
-    type: 'doughnut',
-    data: doughnutData,
+const barConfig = {
+    type: 'bar',
+    data: barData,
     options: {
         responsive: true,
         plugins: {
             legend: {
-                position: 'top'
+                display: false // Hide the legend to save space
             },
             tooltip: {
                 callbacks: {
@@ -367,11 +369,36 @@ const doughnutConfig = {
                     }
                 }
             }
+        },
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Status',
+                    font: {
+                        size: 14
+                    }
+                },
+                barPercentage: 0.5, // Adjust the width of each bar (default is 0.9)
+                categoryPercentage: 0.8 // Adjust space between bars in groups (default is 0.8)
+            },
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Count',
+                    font: {
+                        size: 14
+                    }
+                }
+            }
         }
     }
 };
 
-// Render Doughnut Chart
+// Render Bar Chart
+new Chart(document.getElementById('statusBarChart'), barConfig);
+
 // Show the modal (upload form)
 function toggleUploadForm(requestId) {
     const modal = document.getElementById(`uploadModal${requestId}`);
@@ -383,7 +410,4 @@ function closeUploadForm(requestId) {
     const modal = document.getElementById(`uploadModal${requestId}`);
     modal.style.display = "none";  // Hide the modal
 }
-
-
 </script>
-

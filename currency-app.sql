@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2024 at 08:09 AM
+-- Generation Time: Nov 23, 2024 at 04:31 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -39,9 +39,6 @@ CREATE TABLE `contact_messages` (
 -- Dumping data for table `contact_messages`
 --
 
-INSERT INTO `contact_messages` (`id`, `name`, `email`, `message`, `created_at`) VALUES
-(1, 'patrick', 'admin@martin.com', 'eldknksjbckzd', '2024-11-22 04:32:12'),
-(2, 'mpamo', 'mpamo@gmail.com', 'ndagukunda chr', '2024-11-22 04:51:27');
 
 -- --------------------------------------------------------
 
@@ -62,8 +59,8 @@ CREATE TABLE `exchange_rates` (
 --
 
 INSERT INTO `exchange_rates` (`id`, `from_currency`, `to_currency`, `rate`, `updated_at`) VALUES
-(1, 'INR', 'FRW', 13.20, '2024-11-21 09:50:47'),
-(2, 'FRW', 'INR', 0.08, '2024-11-21 09:50:47');
+(1, 'INR', 'FRW', 13.40, '2024-11-23 13:06:16'),
+(2, 'FRW', 'INR', 0.05, '2024-11-23 07:55:40');
 
 -- --------------------------------------------------------
 
@@ -82,21 +79,15 @@ CREATE TABLE `exchange_requests` (
   `admin_screenshot` varchar(255) DEFAULT NULL,
   `status` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `finalized` tinyint(1) DEFAULT 0
+  `finalized` tinyint(1) DEFAULT 0,
+  `payment_number` varchar(40) NOT NULL,
+  `hidden_from_admin` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `exchange_requests`
 --
 
-INSERT INTO `exchange_requests` (`id`, `user_id`, `amount`, `from_currency`, `to_currency`, `payment_method`, `payment_screenshot`, `admin_screenshot`, `status`, `created_at`, `finalized`) VALUES
-(5, 2, 5000.00, 'FRW', 'INR', 'PayPal', '1732198064-faceook.jpg', 'screenshot_673f75ee9cdf0.PNG', 'Approved', '2024-11-21 14:07:44', 1),
-(6, 2, 6000.00, 'INR', 'INR', 'Cash', '1732211607-ys log.PNG', 'screenshot_673f75e6bb93c.PNG', 'Approved', '2024-11-21 17:53:27', 1),
-(7, 8, 4000.00, 'FRW', 'INR', 'Cash', '1732212619-Capture.PNG', 'screenshot_673f77ae35279.jpg', 'Approved', '2024-11-21 18:10:19', 1),
-(8, 8, 5668.00, 'FRW', 'INR', 'PayPal', '1732213564-Capture-removebg-preview.png', NULL, 'Rejected', '2024-11-21 18:26:04', 1),
-(9, 8, 1000.00, 'FRW', 'INR', 'Bank Transfer', '1732250527-OIP.jpg', NULL, 'Approved', '2024-11-22 04:42:07', 1),
-(10, 8, 1000.00, 'FRW', 'INR', 'Bank Transfer', '1732252856-OIP.jpg', NULL, 'Approved', '2024-11-22 05:20:56', 1),
-(11, 8, 10.00, 'INR', 'FRW', 'Bank Transfer', '1732256568-OIP.jpg', NULL, 'Pending', '2024-11-22 06:22:48', 0);
 
 -- --------------------------------------------------------
 
@@ -104,25 +95,7 @@ INSERT INTO `exchange_requests` (`id`, `user_id`, `amount`, `from_currency`, `to
 -- Table structure for table `messages`
 --
 
-CREATE TABLE `messages` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `admin_id` int(11) DEFAULT NULL,
-  `message` text NOT NULL,
-  `sender_type` enum('user','admin') NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `messages`
---
-
-INSERT INTO `messages` (`id`, `user_id`, `admin_id`, `message`, `sender_type`, `created_at`) VALUES
-(1, 5, NULL, 'hello', 'user', '2024-11-22 06:38:05'),
-(2, 5, NULL, 'hello', 'user', '2024-11-22 06:38:18'),
-(3, 8, NULL, 'we', 'user', '2024-11-22 06:39:47');
-
--- --------------------------------------------------------
+-----------------------------------------------------
 
 --
 -- Table structure for table `users`
@@ -142,9 +115,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `created_at`, `username`, `role`) VALUES
-(2, 'websdeveloper2023@gmail.com', '$2y$10$NYh8JWz4SFML/5zKJzbmH.nreqc2kyibl7kBwd4Xdd6lLOstM4S02', '2024-11-21 10:20:15', 'patrick', 'user'),
 (5, 'admin@martin.com', '$2y$10$0hbWzePHDagXDuuKZCyuDuxUpWR97cCMHT6Vr3GBo06xuJsUkJM6S', '2024-11-21 10:52:37', 'MARTIN EXCHANGER', 'admin'),
-(8, 'king@gmail.com', '$2y$10$TYTJCuNEqtPdy6WFbUB71exomM3l31bZ6Yv6fs7BArrgf69mODXtK', '2024-11-21 18:09:40', 'king', 'user');
 
 --
 -- Indexes for dumped tables
@@ -191,7 +162,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `contact_messages`
 --
 ALTER TABLE `contact_messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `exchange_rates`
@@ -203,7 +174,7 @@ ALTER TABLE `exchange_rates`
 -- AUTO_INCREMENT for table `exchange_requests`
 --
 ALTER TABLE `exchange_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `messages`
@@ -215,7 +186,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
